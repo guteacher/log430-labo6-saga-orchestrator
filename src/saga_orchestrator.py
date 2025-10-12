@@ -3,6 +3,7 @@ Saga Orchestrator
 SPDX - License - Identifier: LGPL - 3.0 - or -later
 Auteurs : Gabriel C. Ullmann, Fabio Petrillo, 2025
 """
+import config
 from flask import Flask, jsonify, request
 from controllers.order_saga_controller import OrderSagaController
 
@@ -26,4 +27,4 @@ def saga_order():
 
 # Start Flask app
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5123)
+    app.run(host='0.0.0.0', port=config.FLASK_PORT)

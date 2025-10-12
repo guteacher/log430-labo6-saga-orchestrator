@@ -3,6 +3,7 @@ Command: create order
 SPDX - License - Identifier: LGPL - 3.0 - or -later
 Auteurs : Gabriel C. Ullmann, Fabio Petrillo, 2025
 """
+import config
 import requests
 from logger import Logger
 from commands.command import Command
@@ -20,7 +21,7 @@ class CreateOrderCommand(Command):
         """Call StoreManager to create order"""
         try:
             # ATTENTION: Si vous roulez ce code dans Docker, n'utilisez pas localhost. Utilisez plutôt le hostname de votre API Gateway
-            response = requests.post('http://localhost:8080/store-manager-api/orders',
+            response = requests.post(f'{config.API_GATEWAY_URL}/store-manager-api/orders',
                 json=self.order_data,
                 headers={'Content-Type': 'application/json'}
             )
@@ -42,7 +43,7 @@ class CreateOrderCommand(Command):
         """Call StoreManager to delete order"""
         try:
             # ATTENTION: Si vous roulez ce code dans Docker, n'utilisez pas localhost. Utilisez plutôt le hostname de votre API Gateway
-            response = requests.delete(f'http://localhost:8080/store-manager-api/orders/{self.order_id}')
+            response = requests.delete(f'{config.API_GATEWAY_URL}/store-manager-api/orders/{self.order_id}')
             if response.ok:
                 data = response.json() 
                 self.order_id = data['order_id'] if data else 0

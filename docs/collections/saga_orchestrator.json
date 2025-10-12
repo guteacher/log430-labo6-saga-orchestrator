@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "4f670398-937d-44b2-ab05-e72cc3280f05",
-		"name": "LOG430 Sagas",
+		"name": "LOG430 Saga Orchestrator",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "6052895"
 	},
