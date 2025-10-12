@@ -21,7 +21,7 @@ Pour en savoir plus sur l'architecture et les décisions de conception, veuillez
 - Avoir les dépôts `log430-a25-labo5` et `log430-a25-labo5-paiement` dans votre ordinateur
 
 ### 1. Changez de branche du labo 05
-Dans le labo 06, nous allons utiliser une version legérement modifié du labo 5 qui apportes quelques modifications dans le code et dans la configuration à KrakenD. Dans le dépôts `log430-a25-labo5` et `log430-a25-labo5-paiement`, changez à la branche `feature/labo06`. Pour changez de branch en utilisant votre terminal, vous pouvez exécuter `git checkout nom_du_branch` dans le répertoire de chaque dépôt.
+Dans le labo 06, nous allons utiliser une version légèrement modifiée du labo 5 qui apporte quelques modifications dans le code et dans la configuration de KrakenD. Dans les dépôts `log430-a25-labo5` et `log430-a25-labo5-paiement`, changez à la branche `feature/labo06`. Pour changer de branche en utilisant votre terminal, vous pouvez exécuter `git checkout nom_du_branch` dans le répertoire de chaque dépôt.
 
 ### 2. Clonez le dépôt du labo 06
 Créez votre propre dépôt à partir du dépôt gabarit (template). Vous pouvez modifier la visibilité pour le rendre privé si vous voulez.
@@ -31,22 +31,22 @@ cd log430-a25-labo6
 ```
 
 ### 3. Créez un fichier .env
-Créez un fichier `.env` basé sur `.env.example`. Dans ce labo, nous n'avons pas des informations de authentification de base de donées dans le fichier `.env`, alors il n'y a rien À cacher. Vous pouvez utiliser les mêmems paramétres du fichier  `.env.example` dans le  `.env`, et modifier selon le besoin.
+Créez un fichier `.env` basé sur `.env.example`. Dans ce labo, nous n'avons pas d'informations d'authentification de base de données dans le fichier `.env`, alors il n'y a rien à cacher. Vous pouvez utiliser les mêmes paramètres du fichier `.env.example` dans le `.env`, et modifier selon le besoin.
 
-### 3. Vérifiez le réseau Docker
+### 4. Vérifiez le réseau Docker
 Le réseau `labo05-network` créé lors du Labo 05 sera réutilisé parce que nous allons intégrer l'orchestrateur avec le Store Manager. Si vous ne l'avez pas encore créé, exécutez :
 ```bash
 docker network create labo05-network
 ```
 
-### 4. Préparez l'environnement de développement
+### 5. Préparez l'environnement de développement
 Démarrez les conteneurs de TOUS les services. Suivez les mêmes étapes que pour les derniers laboratoires.
 ```bash
 docker compose build
 docker compose up -d
 ```
 
-### 5. Préparez l'environnement de déploiement et le pipeline CI/CD
+### 6. Préparez l'environnement de déploiement et le pipeline CI/CD
 Utilisez les mêmes approches qui ont été abordées lors des derniers laboratoires.
 
 ## 🧪 Activités pratiques
@@ -54,7 +54,7 @@ Utilisez les mêmes approches qui ont été abordées lors des derniers laborato
 ### 1. Analyse du patron Saga
 Lisez attentivement le document d'architecture dans `/docs/arc42/docs.md` et examinez l'implémentation déjà présente dans trois fichiers: `src/commands/create_order_command.py`, `src/controllers/order_saga_controller.py` et `src/saga_orchestrator.py`.
 
-> 💡 **Question 1** : Lequel de ces fichiers Python représente la logique de la machine à états décrite dans les diagrammes dans le document arc42? Est-ce que son implémentation est complète ou y a-t-il des éléments qui manquent? Illustrez votre réponse avec des extraits de code.
+> 💡 **Question 1** : Lequel de ces fichiers Python représente la logique de la machine à états décrite dans les diagrammes du document arc42? Est-ce que son implémentation est complète ou y a-t-il des éléments qui manquent? Illustrez votre réponse avec des extraits de code.
 
 > 💡 **Question 2** : Lequel de ces fichiers Python déclenche la création ou suppression des commandes? Est-ce qu'il accède à une base de données directement pour le faire? Illustrez votre réponse avec des extraits de code.
 
