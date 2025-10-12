@@ -35,7 +35,7 @@ Fonctionnalités principales :
 
 ### Contexte métier
 ![State Machine](state_machine.png)
-L'orchestrateur saga coordonne le processus de création de commande qui implique :
+L'orchestrateur saga coordonne le processus de création de commande (Order Saga) qui implique :
 1. Création de la commande dans le Store Manager
 2. Gestion du stock pour les articles commandés
 3. Traitement du paiement
@@ -44,7 +44,7 @@ L'orchestrateur saga coordonne le processus de création de commande qui impliqu
 ### Contexte technique
 - **Applications clientes** : Postman, potentiels frontends web/mobiles
 - **Services impliqués** : StoreManager, PaymentsAPI
-- **Machine à états** : Utilisation des état pour répresenter et gérer la progression du saga
+- **Machine à états** : Utilisation des états pour répresenter et gérer la progression d'une saga
 - **Communication** : Appels HTTP REST vers l'API StoreManager
 
 ## 4. Stratégie de solution
@@ -78,7 +78,7 @@ Veuillez consulter le fichier `/docs/adr/adr001.md`.
 - Les rollbacks restaurent l'état précédent du système
 
 ### Résilience
-- Gestion des erreurs à chaque étape du saga
+- Gestion des erreurs à chaque étape des sagas
 - Compensation automatique en cas d'échec partiel
 
 ### Maintenabilité
@@ -96,7 +96,7 @@ Veuillez consulter le fichier `/docs/adr/adr001.md`.
 
 | Terme | Définition |
 |-------|------------|
-| **Saga** | Patron de conception pour gérer les transactions distribuées via une séquence d'opérations locales |
+| **Saga** | Un algorithme capable de coordonner plusieurs changements d'état, mais qui évite de bloquer les ressources pendant de longues périodes |
 | **Orchestration** | Coordination centralisée d'un processus métier complexe |
 | **Compensation** | Opération inverse permettant d'annuler les effets d'une opération précédente |
 | **Command** | Patron de conception encapsulant une opération dans un objet |
