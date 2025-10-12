@@ -9,13 +9,10 @@
 - Analyser les interactions entre services dans un écosystème de microservices complexe
 - Utiliser le distributed tracing avec Jaeger pour observer et déboguer les transactions distribuées
 
-## 📖 Contexte
-
+## ⚙️ Setup
 Dans ce laboratoire, nous allons implémenter un orchestrateur Saga qui coordonne les transactions distribuées entre les services `store_manager` et `payment_api`. Contrairement aux laboratoires précédents où les services communiquaient directement entre eux, l'orchestrateur Saga centralise la logique de coordination et gère les transactions complexes impliquant plusieurs services.
 
 Pour en savoir plus sur l'architecture et les décisions de conception, veuillez consulter le document d'architecture dans `/docs/arc42/docs.md`.
-
-## ⚙️ Setup
 
 ### Prérequis
 - Avoir les dépôts `log430-a25-labo5` et `log430-a25-labo5-paiement` dans votre ordinateur
