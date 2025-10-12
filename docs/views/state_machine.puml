@@ -1,0 +1,19 @@
+@startuml
+S1 : Créer une commande
+S5 : Supprimer la commande
+S2 : Enregistrer une sortie de stock
+S4 : Enregistrer une entrée de stock
+S3 : Créer une transaction de paiement
+
+[*] --> S1
+S1 --> S2 : Réussi
+S2 --> S3 : Réussi
+S3 --> [*] : Réussi
+
+S3 --> S4  : Échoué
+S4 --> S5 : Terminé
+S5 --> [*] : Terminé
+
+S2 --> S5 : Échoué
+S1 --> [*] : Échoué
+@enduml

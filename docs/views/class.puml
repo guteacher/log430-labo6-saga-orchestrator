@@ -1,0 +1,28 @@
+@startuml
+    class SagaOrchestrator {
+        + saga_order(RequestBody) : JSONObject
+    }
+
+    class Controller {
+        + run(RequestBody) : JSONObject
+    }
+
+    class Command {
+        + run() : OrderSagaState
+        + rollback() : OrderSagaState
+    }
+
+    enum OrderSagaState {
+        + CREATE_ORDER
+        + DECREASE_STOCK
+        + CREATE_PAYMENT
+        + INCREASE_STOCK
+        + DELETE_ORDER
+        + TERMINATE
+    }
+
+    SagaOrchestrator --> Controller
+    Controller --> Command
+    Controller--> OrderSagaState 
+    Command --> OrderSagaState
+@enduml
