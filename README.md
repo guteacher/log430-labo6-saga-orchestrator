@@ -119,7 +119,7 @@ from opentelemetry.instrumentation.requests import RequestsInstrumentor
 app = Flask(__name__)
 
 resource = Resource.create({
-   "service.name": "store-manager",
+   "service.name": "nom-de-votre-service",
    "service.version": "1.0.0"
 })
 
@@ -163,7 +163,8 @@ RequestsInstrumentor().instrument()
  }
 ```
 
-#### 4.4. Modifiez chacun de vos endpoints KrakenD pour laisser passer les traces à Jaeger dans les headers HTTP 
+#### 4.4. Modifiez chacun de vos endpoints KrakenD pour laisser passer les traces à Jaeger dans les headers HTTP
+Par exemple:
 ```yml
     {
       "endpoint": "/store-manager-api/orders",
@@ -175,10 +176,12 @@ RequestsInstrumentor().instrument()
 #### 4.5. Instrumenter vos endpoints avec des [spans](https://logit.io/docs/application-performance-monitoring/jaeger/span-types/#python-example)
 
 ```python
-with tracer.start_as_current_span("name-of-endpoint"):
-	# some code
+with tracer.start_as_current_span("nom-de-votre-endpoint"):
+	# some code ...
   return {'data': 'les-donées-que-vous-voulez-returner'}
 ```
+
+Par example, vous pour tracer le début de la saga, vous pouvez ajouter l'objet `tracer` à l'endpoint `POST /saga/order` dans l'orchestrateur et, ensuite, dans l'endpoint `POST /orders` du Store Manager. N'oubliez pas de faire le setup à Jaeger dans **chaque** application oú vous voulez utiliser Jaeger.
 
 **Reconstruisez et redémarrez** tous les conteneurs Docker.
 
