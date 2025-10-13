@@ -7,7 +7,7 @@
         + run(RequestBody) : JSONObject
     }
 
-    class Command {
+    class Handler {
         + run() : OrderSagaState
         + rollback() : OrderSagaState
     }
@@ -22,7 +22,7 @@
     }
 
     SagaOrchestrator --> Controller
-    Controller --> Command
+    Controller --> Handler
     Controller--> OrderSagaState 
-    Command --> OrderSagaState
+    Handler --> OrderSagaState
 @enduml

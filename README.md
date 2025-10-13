@@ -49,17 +49,17 @@ Utilisez les mêmes approches qui ont été abordées lors des derniers laborato
 ## 🧪 Activités pratiques
 
 ### 1. Analyse du patron Saga
-Lisez attentivement le document d'architecture dans `/docs/arc42/docs.md` et examinez l'implémentation déjà présente dans trois fichiers: `src/commands/create_order_command.py`, `src/controllers/order_saga_controller.py` et `src/saga_orchestrator.py`.
+Lisez attentivement le document d'architecture dans `/docs/arc42/docs.md` et examinez l'implémentation déjà présente dans trois fichiers: `src/handlers/create_order_handler.py`, `src/controllers/order_saga_controller.py` et `src/saga_orchestrator.py`.
 
 > 💡 **Question 1** : Lequel de ces fichiers Python représente la logique de la machine à états décrite dans les diagrammes du document arc42? Est-ce que son implémentation est complète ou y a-t-il des éléments qui manquent? Illustrez votre réponse avec des extraits de code.
 
 > 💡 **Question 2** : Lequel de ces fichiers Python déclenche la création ou suppression des commandes? Est-ce qu'il accède à une base de données directement pour le faire? Illustrez votre réponse avec des extraits de code.
 
-> 💡 **Question 3** : Quelle requête dans la collection Postman du Labo 05 correspond à l'endpoint appelé dans `create_order_command.py`? Illustrez votre réponse avec des captures d'écran ou extraits de code.
+> 💡 **Question 3** : Quelle requête dans la collection Postman du Labo 05 correspond à l'endpoint appelé dans `create_order_handler.py`? Illustrez votre réponse avec des captures d'écran ou extraits de code.
 
 ### 2. Implémentation de la gestion de stock
 
-La première étape (création de la commande) étant déjà implémentée, votre tâche consiste à implémenter les deux étapes suivantes de la saga. Complétez l'implémentation dans `src/commands/decrease_stock_command.py` en vous inspirant de `create_order_command.py`. Voici quelques considérations importantes :
+La première étape (création de la commande) étant déjà implémentée, votre tâche consiste à implémenter les deux étapes suivantes de la saga. Complétez l'implémentation dans `src/handlers/decrease_stock_handler.py` en vous inspirant de `create_order_handler.py`. Voici quelques considérations importantes :
 - Les commentaires `TODO` disséminés dans le code vous guideront vers les modifications nécessaires.
 - Vous devrez appeler l'endpoint de gestion de stock du service Store Manager **via l'API Gateway (KrakenD)**. 
 - Si vous ne connaissez pas l'endpoint exact ou la méthode HTTP à utiliser (POST, GET, etc.), consultez **la collection Postman du Store Manager** pour identifier les bonnes informations. La collection est justement là pour documenter les endpoints et permettre un test rapide.
@@ -71,7 +71,7 @@ La première étape (création de la commande) étant déjà implémentée, votr
 
 ### 3. Implémentation de la création de paiement
 
-Complétez l'implémentation dans `src/commands/create_payment_command.py` en vous basant sur `create_order_command.py` et `decrease_stock_command.py`. Suivez la même logique que pour l'activité précédente.
+Complétez l'implémentation dans `src/handlers/create_payment_handler.py` en vous basant sur `create_order_handler.py` et `decrease_stock_handler.py`. Suivez la même logique que pour l'activité précédente.
 
 > 💡 **Question 5** : Quel endpoint avez-vous appelé pour générer une transaction de paiement? Quelles informations de la commande avez-vous utilisées? Illustrez votre réponse avec des extraits de code.
 
@@ -83,19 +83,102 @@ Ajoutez Jaeger à votre `docker-compose.yml` pour permettre le tracing distribu�
     image: jaegertracing/all-in-one:latest
     container_name: jaeger
     ports:
-      - "16686:16686"  # Interface web Jaeger
-      - "14268:14268"  # Jaeger collector
-      - "6831:6831/udp"  # Jaeger agent
+      - "16686:16686"      # Jaeger UI
+      - "14268:14268"      # Jaeger collector HTTP
+      - "14250:14250"      # Jaeger collector gRPC (legacy)
+      - "4317:4317"        # OTLP gRPC receiver
+      - "4318:4318"        # OTLP HTTP receiver
+      - "6831:6831/udp"    # Jaeger agent (legacy)
     environment:
       - COLLECTOR_ZIPKIN_HOST_PORT=:9411
+      - COLLECTOR_OTLP_ENABLED=true
     networks:
       - labo05-network
 ```
 
-Ensuite, configurez votre application pour envoyer les traces à Jaeger. Dans votre code Python, vous devrez :
-1. Installer les dépendances nécessaires (`opentelemetry` packages)
-2. Configurer l'exportateur de traces vers Jaeger
-3. Instrumenter vos commands avec des spans
+Ensuite, configurez **tous vos microservices** pour envoyer les traces à Jaeger. Dans votre code Python, vous devrez :
+#### 4.1. Ajoutez les dépendances nécessaires à votre requirements.txt
+```txt
+opentelemetry-api
+opentelemetry-sdk
+opentelemetry-exporter-otlp-proto-grpc
+opentelemetry-instrumentation-flask
+opentelemetry-instrumentation-requests
+```
+
+#### 4.2 Configurer l'exportateur de traces vers Jaeger
+```python
+from opentelemetry import trace
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.resources import Resource
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.instrumentation.flask import FlaskInstrumentor
+from opentelemetry.instrumentation.requests import RequestsInstrumentor
+
+app = Flask(__name__)
+
+resource = Resource.create({
+   "service.name": "store-manager",
+   "service.version": "1.0.0"
+})
+
+trace.set_tracer_provider(TracerProvider(resource=resource))
+tracer = trace.get_tracer(__name__)
+
+# Indiquez l'endpoint Jaeger (hostname dans Docker)
+otlp_exporter = OTLPSpanExporter(
+   endpoint="http://jaeger:4317",
+   insecure=True
+)
+span_processor = BatchSpanProcessor(otlp_exporter)
+trace.get_tracer_provider().add_span_processor(span_processor)
+
+
+# Automatic Flask instrumentation
+FlaskInstrumentor().instrument_app(app)
+RequestsInstrumentor().instrument()
+
+# Mon endpoint 1, 2, 3, etc.
+``` 
+
+#### 4.3. Modifiez votre configuration KrakenD pour reconnaître la spécification OpenTelemetry (utilisé par Jaeger)
+```yml
+ "port": 8080,
+ "extra_config": {
+   "telemetry/opentelemetry": {
+     "service_name": "krakend-gateway",
+     "service_version": "1.0.0",
+     "exporters": {
+       "otlp": [
+         {
+           "name": "jaeger",
+           "host": "jaeger",
+           "port": 4317,
+           "use_http": false
+         }
+       ]
+     }
+   }
+ }
+```
+
+#### 4.4. Modifiez chacun de vos endpoints KrakenD pour laisser passer les traces à Jaeger dans les headers HTTP 
+```yml
+    {
+      "endpoint": "/store-manager-api/orders",
+      "method": "POST",
+      "input_headers": ["*"], # ajoutez cette ligne
+    }
+```
+
+#### 4.5. Instrumenter vos endpoints avec des [spans](https://logit.io/docs/application-performance-monitoring/jaeger/span-types/#python-example)
+
+```python
+with tracer.start_as_current_span("name-of-endpoint"):
+	# some code
+  return {'data': 'les-donées-que-vous-voulez-returner'}
+```
 
 **Reconstruisez et redémarrez** tous les conteneurs Docker.
 
@@ -113,7 +196,7 @@ Utilisez Postman pour tester votre orchestrateur Saga :
 ### 6. Gestion des échecs et compensation
 Testez le comportement de votre orchestrateur Saga en cas d'échec :
 1. Arrêtez le service Payment API
-2. Tentez de créer une commande via l'orchestrateur Saga
+2. Essayez de créer une commande via l'orchestrateur Saga
 3. Observez le comportement dans les logs (via Docker Desktop) et dans Jaeger
 
 ## 🔍 Astuces de débogage

@@ -54,7 +54,7 @@ L'orchestrateur saga coordonne le processus de création de commande (Order Saga
 | **Transactions distribuées** | Patron Saga avec orchestration centralisée |
 | **Compensation d'erreurs** | Méthodes `rollback()` dans chaque commande |
 | **Séquencement d'opérations** | Machine à états avec transitions explicites et sans boucles |
-| **Uniformité** | Utilisation de méthodes abstraites dans les classe Command et Controller pour garantir l'uniformité des implementations |
+| **Uniformité** | Utilisation de méthodes abstraites dans les classe Handler et Controller pour garantir l'uniformité des implementations |
 
 ## 5. Vue des blocs de construction
 ![Class](class.png)
@@ -82,7 +82,7 @@ Veuillez consulter le fichier `/docs/adr/adr001.md`.
 - Compensation automatique en cas d'échec partiel
 
 ### Maintenabilité
-- Séparation claire des responsabilités (Controller, Commands, States)
+- Séparation claire des responsabilités (Controller, Handlers, États)
 - Structure extensible permettant d'ajouter facilement de nouvelles étapes
 
 ## 11. Risques et dettes techniques
@@ -99,6 +99,6 @@ Veuillez consulter le fichier `/docs/adr/adr001.md`.
 | **Saga** | Un algorithme capable de coordonner plusieurs changements d'état, mais qui évite de bloquer les ressources pendant de longues périodes |
 | **Orchestration** | Coordination centralisée d'un processus métier complexe |
 | **Compensation** | Opération inverse permettant d'annuler les effets d'une opération précédente |
-| **Command** | Patron de conception encapsulant une opération dans un objet |
+| **Handler** | Dans le patron de conception «Chain of Responsibility», chaque handler stocke une référence vers le prochain handler de la chaîne. En plus de traiter la demande, les handlers la font passer plus loin dans la chaîne. |
 | **Rollback** | Annulation d'une opération pour restaurer un état précédent |
 | **Machine à états** | Modèle de calcul composé d'états et de transitions entre ces états |

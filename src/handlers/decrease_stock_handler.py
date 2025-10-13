@@ -1,14 +1,15 @@
 """
-Command: decrease stock
+Handler: decrease stock
 SPDX - License - Identifier: LGPL - 3.0 - or -later
 Auteurs : Gabriel C. Ullmann, Fabio Petrillo, 2025
 """
 import requests
 from logger import Logger
-from commands.command import Command
+from handlers.handler import Handler
 from order_saga_state import OrderSagaState
 
-class DecreaseStockCommand(Command):
+class DecreaseStockHandler(Handler):
+    """ Handle the stock check-out of a given list of products and quantities. Trigger rollback of previous steps in case of failure. """
 
     def __init__(self, order_item_data):
         """ Constructor method """

@@ -7,6 +7,7 @@ from abc import abstractmethod
 from logger import Logger
 
 class Controller():
+    """ Parent controller class. Every saga must have a controller that implements operations. """
 
     def __init__(self):
         """ Constructor method """

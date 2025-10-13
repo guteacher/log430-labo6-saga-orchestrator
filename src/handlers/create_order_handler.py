@@ -1,15 +1,16 @@
 """
-Command: create order
+Handler: create order
 SPDX - License - Identifier: LGPL - 3.0 - or -later
 Auteurs : Gabriel C. Ullmann, Fabio Petrillo, 2025
 """
 import config
 import requests
 from logger import Logger
-from commands.command import Command
+from handlers.handler import Handler
 from order_saga_state import OrderSagaState
 
-class CreateOrderCommand(Command):
+class CreateOrderHandler(Handler):
+    """ Handle order creation. Delete order in case of failure. """
 
     def __init__(self, order_data):
         """ Constructor method """
