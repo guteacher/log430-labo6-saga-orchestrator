@@ -10,6 +10,8 @@
 - Utiliser le distributed tracing avec Jaeger pour observer et déboguer les transactions distribuées
 
 ## ⚙️ Setup
+Notre magasin a connu une croissance importante, et avec l'augmentation du volume de commandes, nous avons constaté une hausse proportionnelle du nombre d'erreurs. Lorsque le store_manager ou l'API de paiement sont indisponibles ou dysfonctionnels durant l'ajout ou la modification d'une commande, celle-ci peut se retrouver dans un état incohérent (par exemple, la commande est créée sans transaction de paiement associée, ou inversement). Pour résoudre ce type de problème, nous pouvons implémenter le patron Saga orchestré.
+
 Dans ce laboratoire, nous allons implémenter un orchestrateur Saga qui coordonne les transactions distribuées entre les services `store_manager` et `payment_api`. Contrairement aux laboratoires précédents où les services communiquaient directement entre eux, l'orchestrateur Saga centralise la logique de coordination et gère les transactions complexes impliquant plusieurs services.
 
 Pour en savoir plus sur l'architecture et les décisions de conception, veuillez consulter le document d'architecture dans `/docs/arc42/docs.md`.
