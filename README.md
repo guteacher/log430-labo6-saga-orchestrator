@@ -45,9 +45,6 @@ docker compose build
 docker compose up -d
 ```
 
-### 6. Préparez l'environnement de déploiement et le pipeline CI/CD
-Utilisez les mêmes approches qui ont été abordées lors des derniers laboratoires.
-
 ## 🧪 Activités pratiques
 
 ### 1. Analyse du patron Saga
