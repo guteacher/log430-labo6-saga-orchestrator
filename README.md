@@ -29,6 +29,8 @@ git clone https://github.com/[votredepot]/log430-a25-labo6
 cd log430-a25-labo6
 ```
 
+Ensuite, veuillez faire les étapes de setup suivantes pour les **deux dépôts**.
+
 ### 3. Créez un fichier .env
 Créez un fichier `.env` basé sur `.env.example`. Dans ce labo, nous n'avons pas d'informations d'authentification de base de données dans le fichier `.env`, alors il n'y a rien à cacher. Vous pouvez utiliser les mêmes paramètres du fichier `.env.example` dans le `.env`, et modifier selon le besoin.
 
@@ -46,6 +48,8 @@ docker compose up -d
 ```
 
 ## 🧪 Activités pratiques
+
+> ⚠️ ATTENTION : même si nous utiliserons les fonctionnalités des dépôts `log430-a25-labo5` et `log430-a25-labo5-paiement`, nous n'écrirons du nouveau code que dans celui-ci (`log430-labo7`). Alors, les noms de fichiers dans les activités font toujours réference à ce dépôt.
 
 ### 1. Analyse du patron Saga
 Lisez attentivement le document d'architecture dans `/docs/arc42/docs.md` et examinez l'implémentation déjà présente dans trois fichiers: `src/handlers/create_order_handler.py`, `src/controllers/order_saga_controller.py` et `src/saga_orchestrator.py`.
@@ -203,7 +207,7 @@ Testez le comportement de votre orchestrateur Saga en cas d'échec :
 
 ## 🔍 Astuces de débogage
 
-- **Ajoutez des loggers** : Lorsqu'une erreur n'est pas claire, ajoutez `logger.info()` dans votre code
+- **Ajoutez des loggers** : Lorsqu'une erreur n'est pas claire, ajoutez `logger.debug()` dans votre code
 - **Déboguez en profondeur** : Si un logger dans un module ne vous aide pas, descendez plus profondément dans le code, dans les fonctions internes. Si ça n'aide pas, remontez dans la call stack (ex. vérifiez la méthode qui appelle votre méthode).
 - **Utilisez Postman** : Postman nous permet de vérifier chaque endpoint de manière individuelle et rapide, sans écrire aucun code
 - **Utilisez Jaeger** : Utilisez l'interface Jaeger pour visualiser où exactement une transaction échoue
