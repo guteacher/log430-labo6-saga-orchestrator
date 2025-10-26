@@ -12,7 +12,7 @@
 ## ⚙️ Setup
 Notre magasin a connu une croissance importante, et avec l'augmentation du volume de commandes, nous avons constaté une hausse proportionnelle du nombre d'erreurs. Lorsque le store_manager ou l'API de paiement sont indisponibles ou dysfonctionnels durant l'ajout ou la modification d'une commande, celle-ci peut se retrouver dans un état incohérent (par exemple, la commande est créée sans transaction de paiement associée, ou inversement). Pour résoudre ce type de problème, nous pouvons implémenter le patron Saga orchestré.
 
-Dans ce laboratoire, nous allons implémenter un orchestrateur Saga qui coordonne les transactions distribuées entre les services `store_manager` et `payment_api`. Contrairement aux laboratoires précédents où les services communiquaient directement entre eux, l'orchestrateur Saga centralise la logique de coordination et gère les transactions complexes impliquant plusieurs services.
+Dans ce laboratoire, nous allons implémenter un orchestrateur Saga (`saga_orchestrator`) qui coordonne les transactions distribuées entre les services `store_manager` et `payment_api`. Contrairement aux laboratoires précédents où les services communiquaient directement entre eux, l'orchestrateur Saga centralise la logique de coordination et gère les transactions complexes impliquant plusieurs services.
 
 Pour en savoir plus sur l'architecture et les décisions de conception, veuillez consulter le document d'architecture dans `/docs/arc42/docs.md`.
 
@@ -29,7 +29,7 @@ git clone https://github.com/[votredepot]/log430-a25-labo6
 cd log430-a25-labo6
 ```
 
-Ensuite, veuillez faire les étapes de setup suivantes pour les **deux dépôts**.
+Ensuite, veuillez faire les étapes de setup suivantes pour **tous les dépôts**.
 
 ### 3. Créez un fichier .env
 Créez un fichier `.env` basé sur `.env.example`. Dans ce labo, nous n'avons pas d'informations d'authentification de base de données dans le fichier `.env`, alors il n'y a rien à cacher. Vous pouvez utiliser les mêmes paramètres du fichier `.env.example` dans le `.env`, et modifier selon le besoin.
