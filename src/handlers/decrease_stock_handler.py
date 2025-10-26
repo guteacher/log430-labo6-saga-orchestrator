@@ -41,5 +41,6 @@ class DecreaseStockHandler(Handler):
         
     def rollback(self):
         """ Call StoreManager to revert stock check out (in other words, check-in the previously checked-out product and quantity) """
+        # TODO: effectuer une requête à /stocks pour modifier le stock
         self.logger.debug("L'entrée des articles dans le stock a réussi")
         return OrderSagaState.DELETE_ORDER

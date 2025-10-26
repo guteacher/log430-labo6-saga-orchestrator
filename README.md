@@ -141,7 +141,7 @@ trace.get_tracer_provider().add_span_processor(span_processor)
 FlaskInstrumentor().instrument_app(app)
 RequestsInstrumentor().instrument()
 
-# Mon endpoint 1, 2, 3, etc.
+# Le code pour vos endpoints Flask, etc.
 ``` 
 
 #### 4.3. Modifiez votre configuration KrakenD pour reconnaître la spécification OpenTelemetry (utilisé par Jaeger)
@@ -171,7 +171,7 @@ Par exemple:
     {
       "endpoint": "/store-manager-api/orders",
       "method": "POST",
-      "input_headers": ["*"], # ajoutez cette ligne
+      "input_headers": ["*"], # ajoutez cette ligne à chacun des endpoints pertinents
     }
 ```
 
@@ -206,7 +206,7 @@ Testez le comportement de votre orchestrateur Saga en cas d'échec :
 
 ## 🔍 Astuces de débogage
 
-- **Ajoutez des loggers** : Lorsqu'une erreur n'est pas claire, ajoutez des `print()` ou `logger.info()` dans votre code
+- **Ajoutez des loggers** : Lorsqu'une erreur n'est pas claire, ajoutez `logger.info()` dans votre code
 - **Déboguez en profondeur** : Si un logger dans un module ne vous aide pas, descendez plus profondément dans le code, dans les fonctions internes. Si ça n'aide pas, remontez dans la call stack (ex. vérifiez la méthode qui appelle votre méthode).
 - **Utilisez Postman** : Postman nous permet de vérifier chaque endpoint de manière individuelle et rapide, sans écrire aucun code
 - **Utilisez Jaeger** : Utilisez l'interface Jaeger pour visualiser où exactement une transaction échoue

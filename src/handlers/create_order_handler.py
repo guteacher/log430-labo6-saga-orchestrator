@@ -21,7 +21,7 @@ class CreateOrderHandler(Handler):
     def run(self):
         """Call StoreManager to create order"""
         try:
-            # ATTENTION: Si vous roulez ce code dans Docker, n'utilisez pas localhost. Utilisez plutôt le hostname de votre API Gateway
+            # ATTENTION: Si vous exécutez ce code dans Docker, n'utilisez pas localhost. Utilisez plutôt le hostname de votre API Gateway
             response = requests.post(f'{config.API_GATEWAY_URL}/store-manager-api/orders',
                 json=self.order_data,
                 headers={'Content-Type': 'application/json'}
@@ -43,7 +43,7 @@ class CreateOrderHandler(Handler):
     def rollback(self):
         """Call StoreManager to delete order"""
         try:
-            # ATTENTION: Si vous roulez ce code dans Docker, n'utilisez pas localhost. Utilisez plutôt le hostname de votre API Gateway
+            # ATTENTION: Si vous exécutez ce code dans Docker, n'utilisez pas localhost. Utilisez plutôt le hostname de votre API Gateway
             response = requests.delete(f'{config.API_GATEWAY_URL}/store-manager-api/orders/{self.order_id}')
             if response.ok:
                 data = response.json() 
