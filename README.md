@@ -4,7 +4,6 @@
 ÉTS - LOG430 - Architecture logicielle - Chargé de laboratoire: Gabriel C. Ullmann, Automne 2025.
 
 ## 🎯 Objectifs d'apprentissage
-- Comprendre le fonctionnement d'un orchestrateur Saga pour coordonner des transactions distribuées
 - Comprendre le patron Saga et son rôle dans les architectures distribuées
 - Analyser les interactions entre services dans un écosystème de microservices complexe
 - Utiliser le distributed tracing avec Jaeger pour observer et déboguer les transactions distribuées
