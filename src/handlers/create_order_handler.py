@@ -33,11 +33,11 @@ class CreateOrderHandler(Handler):
                 return OrderSagaState.DECREASE_STOCK
             else:
                 text = response.json() 
-                self.logger.debug(f"Erreur {response.status_code} : {text}")
+                self.logger.error(f"Erreur {response.status_code} : {text}")
                 return OrderSagaState.TERMINATE
 
         except Exception as e:
-            self.logger.debug("La création de la commande a échoué : " + str(e))
+            self.logger.error("La création de la commande a échoué : " + str(e))
             return OrderSagaState.TERMINATE
         
     def rollback(self):
@@ -52,9 +52,9 @@ class CreateOrderHandler(Handler):
                 return OrderSagaState.TERMINATE
             else:
                 text = response.json() 
-                self.logger.debug(f"Erreur {response.status_code} : {text}")
+                self.logger.error(f"Erreur {response.status_code} : {text}")
                 return OrderSagaState.TERMINATE
 
         except Exception as e:
-            self.logger.debug("La supression de la commande a échoué : " + str(e))
+            self.logger.error("La supression de la commande a échoué : " + str(e))
             return OrderSagaState.TERMINATE

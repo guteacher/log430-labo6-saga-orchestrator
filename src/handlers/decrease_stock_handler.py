@@ -32,11 +32,11 @@ class DecreaseStockHandler(Handler):
                 self.logger.debug("La sortie des articles du stock a réussi")
                 return OrderSagaState.CREATE_PAYMENT
             else:
-                self.logger.debug(f"Erreur : {response_ok}")
+                self.logger.error(f"Erreur : {response_ok}")
                 return OrderSagaState.DELETE_ORDER
             
         except Exception as e:
-            self.logger.debug("La sortie des articles du stock a échoué : " + str(e))
+            self.logger.error("La sortie des articles du stock a échoué : " + str(e))
             return OrderSagaState.DELETE_ORDER
         
     def rollback(self):

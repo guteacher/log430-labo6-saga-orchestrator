@@ -36,11 +36,11 @@ class CreatePaymentHandler(Handler):
                 self.logger.debug("La création d'une transaction de paiement a réussi")
                 return OrderSagaState.TERMINATE
             else:
-                self.logger.debug(f"Erreur : {response_ok}")
+                self.logger.error(f"Erreur : {response_ok}")
                 return OrderSagaState.INCREASE_STOCK
 
         except Exception as e:
-            self.logger.debug("La création d'une transaction de paiement a échoué : " + str(e))
+            self.logger.error("La création d'une transaction de paiement a échoué : " + str(e))
             return OrderSagaState.INCREASE_STOCK
         
     def rollback(self):
