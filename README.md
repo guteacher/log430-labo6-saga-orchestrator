@@ -49,7 +49,7 @@ docker compose up -d
 
 ## 🧪 Activités pratiques
 
-> ⚠️ ATTENTION : même si nous utiliserons les fonctionnalités des dépôts `log430-a25-labo5` et `log430-a25-labo5-paiement`, nous n'écrirons du nouveau code que dans celui-ci (`log430-labo7`). Alors, les noms de fichiers dans les activités font toujours réference à ce dépôt.
+> ⚠️ ATTENTION : même si nous utiliserons les fonctionnalités des dépôts `log430-a25-labo5` et `log430-a25-labo5-paiement`, nous n'écrirons du nouveau code que dans celui-ci (`labo6-saga-orchestrator`). Alors, les noms de fichiers dans les activités font toujours réference à ce dépôt.
 
 ### 1. Analyse du patron Saga
 Lisez attentivement le document d'architecture dans `/docs/arc42/docs.md` et examinez l'implémentation déjà présente dans trois fichiers: `src/handlers/create_order_handler.py`, `src/controllers/order_saga_controller.py` et `src/saga_orchestrator.py`.
@@ -66,7 +66,7 @@ La première étape (création de la commande) étant déjà implémentée, votr
 - Les commentaires `TODO` disséminés dans le code vous guideront vers les modifications nécessaires.
 - Vous devrez appeler l'endpoint de gestion de stock du service Store Manager **via l'API Gateway (KrakenD)**. 
 - Si vous ne connaissez pas l'endpoint exact ou la méthode HTTP à utiliser (POST, GET, etc.), consultez **la collection Postman du Store Manager** pour identifier les bonnes informations. La collection est justement là pour documenter les endpoints et permettre un test rapide.
-- Pour tester l'ensemble de la saga, utilisez la **collection Postman de l'Orchestrateur** en appelant l'endpoint `/saga/order`. 
+- Pour tester l'ensemble de la saga, utilisez la **collection Postman de l'Orchestrateur** (pas la collection du Store Manager) en appelant l'endpoint `/saga/order`. 
 - En cas d'erreurs 500 avec des messages peu explicites, ajoutez des loggers dans les méthodes suspectes. Consultez la section « Astuces de débogage » pour plus de détails sur cette approche.
 - N'oubliez pas d'implémenter les deux méthodes: `run()` et `rollback()`. **Chacune de nos actions doit être réversible, et déclencher la compensation des actions précédentes**.
 
