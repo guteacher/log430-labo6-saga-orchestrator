@@ -30,15 +30,15 @@ class CreateOrderHandler(Handler):
                 data = response.json() 
                 self.order_id = data['order_id'] if data else 0
                 self.logger.debug("La création de la commande a réussi")
-                return OrderSagaState.DECREASE_STOCK
+                return OrderSagaState.DECREASING_STOCK
             else:
                 text = response.json() 
                 self.logger.error(f"Erreur {response.status_code} : {text}")
-                return OrderSagaState.TERMINATE
+                return OrderSagaState.COMPLETED
 
         except Exception as e:
             self.logger.error("La création de la commande a échoué : " + str(e))
-            return OrderSagaState.TERMINATE
+            return OrderSagaState.COMPLETED
         
     def rollback(self):
         """Call StoreManager to delete order"""
@@ -49,12 +49,12 @@ class CreateOrderHandler(Handler):
                 data = response.json() 
                 self.order_id = data['order_id'] if data else 0
                 self.logger.debug("La supression de la commande a réussi")
-                return OrderSagaState.TERMINATE
+                return OrderSagaState.COMPLETED
             else:
                 text = response.json() 
                 self.logger.error(f"Erreur {response.status_code} : {text}")
-                return OrderSagaState.TERMINATE
+                return OrderSagaState.COMPLETED
 
         except Exception as e:
             self.logger.error("La supression de la commande a échoué : " + str(e))
-            return OrderSagaState.TERMINATE
+            return OrderSagaState.COMPLETED

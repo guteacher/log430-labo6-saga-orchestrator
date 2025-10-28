@@ -15,7 +15,7 @@ class OrderSagaController(Controller):
     def __init__(self):
         """ Constructor method """
         super().__init__()
-        self.current_saga_state = OrderSagaState.CREATE_ORDER
+        self.current_saga_state = OrderSagaState.CREATING_ORDER
     
     def run(self, request):
         """ Perform steps of order saga """
@@ -26,17 +26,17 @@ class OrderSagaController(Controller):
         }
         self.create_order_handler = CreateOrderHandler(order_data)
 
-        while self.current_saga_state is not OrderSagaState.TERMINATE:
+        while self.current_saga_state is not OrderSagaState.COMPLETED:
             # TODO: vérifier TOUS les 6 états saga. Utilisez run() ou rollback() selon les besoins.
-            if self.current_saga_state == OrderSagaState.CREATE_ORDER:
+            if self.current_saga_state == OrderSagaState.CREATING_ORDER:
                 self.current_saga_state = self.create_order_handler.run()
-            elif self.current_saga_state == OrderSagaState.DECREASE_STOCK:
+            elif self.current_saga_state == OrderSagaState.DECREASING_STOCK:
                 self.increase_stock_handler = DecreaseStockHandler(order_data["items"])
                 self.current_saga_state = self.increase_stock_handler.run()
             else:
                 self.is_error_occurred = True
                 self.logger.debug(f"L'état saga n'est pas valide : {self.current_saga_state}")
-                self.current_saga_state = OrderSagaState.TERMINATE
+                self.current_saga_state = OrderSagaState.COMPLETED
 
         return {
             "order_id": self.create_order_handler.order_id,
