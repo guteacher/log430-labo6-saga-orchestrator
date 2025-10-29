@@ -17,10 +17,10 @@ Dans ce laboratoire, nous allons implémenter un orchestrateur Saga (`saga_orche
 Pour en savoir plus sur l'architecture et les décisions de conception, veuillez consulter le document d'architecture dans `/docs/arc42/docs.md`.
 
 ### Prérequis
-- Avoir les dépôts `log430-a25-labo5` et `log430-a25-labo5-paiement` dans votre ordinateur
+- Avoir les dépôts `log430-a25-labo5` et `log430-a25-labo5-payment` dans votre ordinateur
 
 ### 1. Changez de branche du labo 05
-Dans le labo 06, nous allons utiliser une version légèrement modifiée du labo 5 qui apporte quelques modifications dans le code et dans la configuration de KrakenD. Dans les dépôts `log430-a25-labo5` et `log430-a25-labo5-paiement`, changez à la branche `feature/labo06`. Pour changer de branche en utilisant votre terminal, vous pouvez exécuter `git checkout nom_du_branch` dans le répertoire de chaque dépôt.
+Dans le labo 06, nous allons utiliser une version légèrement modifiée du labo 5 qui apporte quelques modifications dans le code et dans la configuration de KrakenD. Dans les dépôts `log430-a25-labo5` et `log430-a25-labo5-payment`, changez à la branche `feature/labo06`. Pour changer de branche en utilisant votre terminal, vous pouvez exécuter `git checkout nom_du_branch` dans le répertoire de chaque dépôt.
 
 ### 2. Clonez le dépôt du labo 06
 Créez votre propre dépôt à partir du dépôt gabarit (template). Vous pouvez modifier la visibilité pour le rendre privé si vous voulez.
@@ -49,7 +49,7 @@ docker compose up -d
 
 ## 🧪 Activités pratiques
 
-> ⚠️ ATTENTION : même si nous utiliserons les fonctionnalités des dépôts `log430-a25-labo5` et `log430-a25-labo5-paiement`, nous n'écrirons du nouveau code que dans celui-ci (`labo6-saga-orchestrator`). Alors, les noms de fichiers dans les activités font toujours réference à ce dépôt.
+> ⚠️ ATTENTION : même si nous utiliserons les fonctionnalités des dépôts `log430-a25-labo5` et `log430-a25-labo5-paiement`, nous écrirons du nouveau code principalement dans celui-ci (`labo6-saga-orchestrator`). Alors, les noms de fichiers dans les activités font toujours réference à ce dépôt (sauf l'activité 4).
 
 ### 1. Analyse du patron Saga
 Lisez attentivement le document d'architecture dans `/docs/arc42/docs.md` et examinez l'implémentation déjà présente dans trois fichiers: `src/handlers/create_order_handler.py`, `src/controllers/order_saga_controller.py` et `src/saga_orchestrator.py`.
@@ -99,7 +99,7 @@ Ajoutez Jaeger à votre `docker-compose.yml` pour permettre le tracing distribu�
       - labo05-network
 ```
 
-Ensuite, configurez **tous vos microservices** pour envoyer les traces à Jaeger. Dans votre code Python, vous devrez :
+Ensuite, configurez **tous vos microservices** (Store Manager, Payments API et Orchestrator) pour envoyer les traces à Jaeger. Dans votre code Python, vous devrez :
 #### 4.1. Ajoutez les dépendances nécessaires à votre requirements.txt
 ```txt
 opentelemetry-api
@@ -137,7 +137,6 @@ otlp_exporter = OTLPSpanExporter(
 )
 span_processor = BatchSpanProcessor(otlp_exporter)
 trace.get_tracer_provider().add_span_processor(span_processor)
-
 
 # Automatic Flask instrumentation
 FlaskInstrumentor().instrument_app(app)
@@ -180,9 +179,11 @@ Par exemple:
 #### 4.5. Instrumenter vos endpoints avec des [spans](https://logit.io/docs/application-performance-monitoring/jaeger/span-types/#python-example)
 
 ```python
-with tracer.start_as_current_span("nom-de-votre-endpoint"):
-	# some code ...
-  return {'data': 'les-donées-que-vous-voulez-returner'}
+@app.route("/some-endpoint", methods=["POST"])
+def post_something():
+  with tracer.start_as_current_span("nom-de-votre-endpoint"):
+    # votre logique endpoint...
+    return {'data': 'les-donées-que-vous-voulez-retourner'}
 ```
 
 Par example, vous pour tracer le début de la saga, vous pouvez ajouter l'objet `tracer` à l'endpoint `POST /saga/order` dans l'orchestrateur et, ensuite, dans l'endpoint `POST /orders` du Store Manager. N'oubliez pas de faire le setup à Jaeger dans **chaque** application oú vous voulez utiliser Jaeger.
@@ -210,6 +211,7 @@ Testez le comportement de votre orchestrateur Saga en cas d'échec :
 
 - **Ajoutez des loggers** : Lorsqu'une erreur n'est pas claire, ajoutez `logger.debug()` dans votre code
 - **Déboguez en profondeur** : Si un logger dans un module ne vous aide pas, descendez plus profondément dans le code, dans les fonctions internes. Si ça n'aide pas, remontez dans la call stack (ex. vérifiez la méthode qui appelle votre méthode, et ainsi de suite).
+- **Utilisez Docker Desktop** : Utilisez l'interface Docker Desktop pour visualiser les logs.
 - **Utilisez Postman** : Postman nous permet de vérifier chaque endpoint de manière individuelle et rapide, sans écrire aucun code. N'oubliez pas de faire les requêtes seulement à `localhost` à partir de Postman, parce qu'il est hors Docker (il ne connaît pas les hostnames). 
 - **Utilisez Jaeger** : Utilisez l'interface Jaeger pour visualiser où exactement une transaction échoue.
 
