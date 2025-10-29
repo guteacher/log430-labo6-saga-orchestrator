@@ -20,7 +20,7 @@ Pour en savoir plus sur l'architecture et les décisions de conception, veuillez
 - Avoir les dépôts `log430-a25-labo5` et `log430-a25-labo5-payment` dans votre ordinateur
 
 ### 1. Changez de branche du labo 05
-Dans le labo 06, nous allons utiliser une version légèrement modifiée du labo 5 qui apporte quelques modifications dans le code et dans la configuration de KrakenD. Dans les dépôts `log430-a25-labo5` et `log430-a25-labo5-payment`, changez à la branche `feature/labo06`. Pour changer de branche en utilisant votre terminal, vous pouvez exécuter `git checkout nom_du_branch` dans le répertoire de chaque dépôt.
+Dans le labo 06, nous allons utiliser une version légèrement modifiée du labo 5 qui apporte quelques modifications dans le code et dans la configuration de KrakenD. Dans les dépôts `log430-a25-labo5` et `log430-a25-labo5-payment`, changez à la branche `feature/labo6`. Pour changer de branche en utilisant votre terminal, vous pouvez exécuter `git checkout nom_du_branch` dans le répertoire de chaque dépôt.
 
 ### 2. Clonez le dépôt du labo 06
 Créez votre propre dépôt à partir du dépôt gabarit (template). Vous pouvez modifier la visibilité pour le rendre privé si vous voulez.
