@@ -87,10 +87,10 @@ Veuillez consulter le fichier `/docs/adr/adr001.md`.
 
 ## 11. Risques et dettes techniques
 
-| Risque | Impact | Mitigation |
-|--------|--------|------------|
-| **Point de défaillance** | Si l'orchestrateur cesse de fonctionner, il devient impossible de créer des commandes, même si le Store Manager et le Payments API continuent de fonctionner | Coupler l'orchestrateur avec le Store Manager, ou utiliser une saga chorégraphiée (hors du cadre de ce labo)|
-| **Pas de retry** | Échec définitif en cas d'erreur temporaire | Implémenter une logique de retry (hors du cadre de ce labo)|
+| Risque | Impact | Stratégie de mitigation |
+|--------|--------|------------------------|
+| **Point de défaillance unique** | Si l'orchestrateur cesse de fonctionner, il devient impossible de créer des commandes, même si le Store Manager et le Payments API continuent de fonctionner | Coupler l'orchestrateur avec le Store Manager, ou utiliser une saga chorégraphiée (nous allons faire ça dans le labo 8) |
+| **Absence de mécanisme de retry** | Échec définitif en cas d'erreur temporaire, car l'état de la machine à états n'est conservé qu'en mémoire | Implémenter une logique de persistence de l'état actuel de l'instance de l'orchestrateur pour permettre un retry automatique (nous n'allons pas implémenter ça dans ce labo, mais c'est une amélioration à considérer pour le futur) |
 
 ## 12. Glossaire
 

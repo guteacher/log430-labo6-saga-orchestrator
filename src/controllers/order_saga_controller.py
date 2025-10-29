@@ -10,11 +10,15 @@ from controllers.controller import Controller
 from order_saga_state import OrderSagaState
 
 class OrderSagaController(Controller):
-    """ Manage states and transitions of an order saga """
+    """ 
+    This class manages states and transitions of an order saga. The current state is persisted only in memory, as an instance variable, therefore it does not allow retrying in case the application fails.
+    Please read section 11 of the arc42 document of this project to understand the limitations of this implementation in more detail.
+    """
 
     def __init__(self):
         """ Constructor method """
         super().__init__()
+        # NOTE: veuillez lire le commentaire de ce classe pour mieux comprendre les limitations de ce implémentation
         self.current_saga_state = OrderSagaState.CREATING_ORDER
     
     def run(self, request):
