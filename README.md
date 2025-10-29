@@ -183,7 +183,7 @@ Par exemple:
 def post_something():
   with tracer.start_as_current_span("nom-de-votre-endpoint"):
     # votre logique endpoint...
-    return jsonify({'data': 'les-donées-que-vous-voulez-retourner'})
+    return jsonify({'data': 'les-données-que-vous-voulez-retourner'})
 ```
 
 Par example, vous pour tracer le début de la saga, vous pouvez ajouter l'objet `tracer` à l'endpoint `POST /saga/order` dans l'orchestrateur et, ensuite, dans l'endpoint `POST /orders` du Store Manager. N'oubliez pas de faire le setup à Jaeger dans **chaque** application oú vous voulez utiliser Jaeger.
