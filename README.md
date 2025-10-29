@@ -25,8 +25,8 @@ Dans le labo 06, nous allons utiliser une version légèrement modifiée du labo
 ### 2. Clonez le dépôt du labo 06
 Créez votre propre dépôt à partir du dépôt gabarit (template). Vous pouvez modifier la visibilité pour le rendre privé si vous voulez.
 ```bash
-git clone https://github.com/[votredepot]/log430-a25-labo6
-cd log430-a25-labo6
+git clone https://github.com/[votredepot]/log430-labo6-saga-orchestrator
+cd log430-labo6
 ```
 
 Ensuite, veuillez faire les étapes de setup suivantes pour **tous les dépôts**.
