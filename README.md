@@ -41,7 +41,7 @@ docker network create labo05-network
 ```
 
 ### 5. Préparez l'environnement de développement
-Démarrez les conteneurs de TOUS les services. Suivez les mêmes étapes que pour les derniers laboratoires.
+Démarrez les conteneurs de TOUS les services. Importez la collection Postman dans `docs/collections`. Suivez les mêmes étapes que pour les derniers laboratoires.
 ```bash
 docker compose build
 docker compose up -d
@@ -63,10 +63,10 @@ Lisez attentivement le document d'architecture dans `/docs/arc42/docs.md` et exa
 ### 2. Implémentation de la gestion de stock
 
 La première étape (création de la commande) étant déjà implémentée, votre tâche consiste à implémenter les deux étapes suivantes de la saga. Complétez l'implémentation dans `src/handlers/decrease_stock_handler.py` en vous inspirant de `create_order_handler.py`. Voici quelques considérations importantes :
-- Les commentaires `TODO` disséminés dans le code vous guideront vers les modifications nécessaires.
+- Les commentaires `TODO` disséminés dans le code vous guideront vers les modifications nécessaires. Si vous utilisez VS Code, cliquez sur l'icône en forme de loupe ou appuyez sur CTRL + SHIFT + F pour effectuer une recherche dans l'ensemble du projet.
 - Vous devrez appeler l'endpoint de gestion de stock du service Store Manager **via l'API Gateway (KrakenD)**. 
 - Si vous ne connaissez pas l'endpoint exact ou la méthode HTTP à utiliser (POST, GET, etc.), consultez **la collection Postman du Store Manager** pour identifier les bonnes informations. La collection est justement là pour documenter les endpoints et permettre un test rapide.
-- Pour tester l'ensemble de la saga, utilisez la **collection Postman de l'Orchestrateur** (pas la collection du Store Manager) en appelant l'endpoint `/saga/order`. 
+- Pour tester l'ensemble de la saga, utilisez la **collection Postman de l'Orchestrateur (pas la collection du Store Manager)** en appelant l'endpoint `/saga/order`. 
 - En cas d'erreurs 500 avec des messages peu explicites, ajoutez des loggers dans les méthodes suspectes. Consultez la section « Astuces de débogage » pour plus de détails sur cette approche.
 - N'oubliez pas d'implémenter les deux méthodes: `run()` et `rollback()`. **Chacune de nos actions doit être réversible, et déclencher la compensation des actions précédentes**.
 
@@ -121,6 +121,7 @@ from opentelemetry.instrumentation.requests import RequestsInstrumentor
 
 app = Flask(__name__)
 
+# TODO: Indiquez un nom pertinent à votre service
 resource = Resource.create({
    "service.name": "nom-de-votre-service",
    "service.version": "1.0.0"
@@ -142,7 +143,7 @@ trace.get_tracer_provider().add_span_processor(span_processor)
 FlaskInstrumentor().instrument_app(app)
 RequestsInstrumentor().instrument()
 
-# Le code pour vos endpoints Flask, etc.
+# Ensuite, le code pour vos endpoints Flask, etc...
 ``` 
 
 #### 4.3. Modifiez votre configuration KrakenD pour reconnaître la spécification OpenTelemetry (utilisé par Jaeger)
