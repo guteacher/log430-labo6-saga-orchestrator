@@ -190,7 +190,7 @@ Par example, vous pour tracer le début de la saga, vous pouvez ajouter l'objet 
 
 **Reconstruisez et redémarrez** tous les conteneurs Docker.
 
-Accédez à l'interface Jaeger à `http://localhost:16686` et observez les traces de vos transactions distribuées.
+Accédez à l'interface Jaeger à `http://localhost:16686` et observez les traces de vos transactions distribuées. Voici une [petite démonstration](http://youtube.com/watch?v=wSgCCmu7eTY) de l'interface dans le navigateur.
 
 ### 5. Test de la transaction Saga complète
 Utilisez Postman pour tester votre orchestrateur Saga :
