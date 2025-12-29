@@ -17,10 +17,10 @@ Dans ce laboratoire, nous allons implémenter un orchestrateur Saga (`saga_orche
 Pour en savoir plus sur l'architecture et les décisions de conception, veuillez consulter le document d'architecture dans `/docs/arc42/docs.md`.
 
 ### Prérequis
-- Avoir les dépôts `log430-a25-labo5` et `log430-a25-labo5-payment` dans votre ordinateur
+- Avoir les dépôts `log430-labo5` et `log430-labo5-payment` dans votre ordinateur
 
 ### 1. Changez de branche du labo 05
-Dans le labo 06, nous allons utiliser une version légèrement modifiée du labo 5 qui apporte quelques modifications dans le code et dans la configuration de KrakenD. Dans les dépôts `log430-a25-labo5` et `log430-a25-labo5-payment`, changez à la branche `feature/labo6`. Pour changer de branche en utilisant votre terminal, vous pouvez exécuter `git checkout nom_du_branch` dans le répertoire de chaque dépôt.
+Dans le labo 06, nous allons utiliser une version légèrement modifiée du labo 5 qui apporte quelques modifications dans le code et dans la configuration de KrakenD. Dans les dépôts `log430-labo5` et `log430-labo5-payment`, changez à la branche `feature/labo6`. Pour changer de branche en utilisant votre terminal, vous pouvez exécuter `git checkout nom_du_branch` dans le répertoire de chaque dépôt.
 
 ### 2. Clonez le dépôt du labo 06
 Créez votre propre dépôt à partir du dépôt gabarit (template). Vous pouvez modifier la visibilité pour le rendre privé si vous voulez.
@@ -49,7 +49,7 @@ docker compose up -d
 
 ## 🧪 Activités pratiques
 
-> ⚠️ ATTENTION : même si nous utiliserons les fonctionnalités des dépôts `log430-a25-labo5` et `log430-a25-labo5-paiement`, nous écrirons du nouveau code principalement dans celui-ci (`labo6-saga-orchestrator`). Alors, les noms de fichiers dans les activités font toujours réference à ce dépôt (sauf l'activité 4).
+> ⚠️ ATTENTION : même si nous utiliserons les fonctionnalités des dépôts `log430-labo5` et `log430-labo5-paiement`, nous écrirons du nouveau code principalement dans celui-ci (`labo6-saga-orchestrator`). Alors, les noms de fichiers dans les activités font toujours réference à ce dépôt (sauf l'activité 4).
 
 ### 1. Analyse du patron Saga
 Lisez attentivement le document d'architecture dans `/docs/arc42/docs.md` et examinez l'implémentation déjà présente dans trois fichiers: `src/handlers/create_order_handler.py`, `src/controllers/order_saga_controller.py` et `src/saga_orchestrator.py`.
