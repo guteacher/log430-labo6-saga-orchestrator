@@ -25,7 +25,7 @@ Dans le labo 06, nous allons utiliser une version légèrement modifiée du labo
 #### Pour `log430-labo5`
 Pour utiliser `log430-labo5` avec `log430-labo6`, vous devez d'abord apporter quelques modifications à `log430-labo5` (par exemple, ajouter les réponses aux activités).
 
-Vous pouvez trouver copier les fichiers dans `log430-labo6-saga-orchestrator/log430-labo5-changes` et leur coller dans le bon endroit dans `log430-labo5`. 
+Vous pouvez copier les fichiers dans `log430-labo6-saga-orchestrator/log430-labo5-changes` et les coller dans le bon endroit dans `log430-labo5`. 
 
 Même si vous avez déjà terminé toutes les activités du labo5, nous vous encourageons à faire en sorte que vos fichiers dans `log430-labo5` sont identiques aux fichiers dans `log430-labo6-saga-orchestrator/log430-labo5-changes`.
 
