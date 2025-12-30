@@ -19,8 +19,37 @@ Pour en savoir plus sur l'architecture et les décisions de conception, veuillez
 ### Prérequis
 - Avoir les dépôts `log430-labo5` et `log430-labo5-payment` dans votre ordinateur
 
-### 1. Changez de branche du labo 05
-Dans le labo 06, nous allons utiliser une version légèrement modifiée du labo 5 qui apporte quelques modifications dans le code et dans la configuration de KrakenD. Dans les dépôts `log430-labo5` et `log430-labo5-payment`, changez à la branche `feature/labo6`. Pour changer de branche en utilisant votre terminal, vous pouvez exécuter `git checkout nom_du_branch` dans le répertoire de chaque dépôt.
+### 1. Changez de version du labo 05
+Dans le labo 06, nous allons utiliser une version légèrement modifiée du labo 5 qui apporte quelques modifications dans le code et dans la configuration de KrakenD.
+
+#### Pour `log430-labo5`
+Pour utiliser `log430-labo5` avec `log430-labo6`, vous devez d'abord apporter quelques modifications à `log430-labo5` (par exemple, ajouter les réponses aux activités).
+
+Vous pouvez trouver copier les fichiers dans `log430-labo6-saga-orchestrator/log430-labo5-changes` et leur coller dans le bon endroit dans `log430-labo5`. 
+
+Même si vous avez déjà terminé toutes les activités du labo5, nous vous encourageons à faire en sorte que vos fichiers dans `log430-labo5` sont identiques aux fichiers dans `log430-labo6-saga-orchestrator/log430-labo5-changes`.
+
+#### Pour `log430-labo5-payment`
+Pour utiliser `log430-labo5-payment` avec `log430-labo6`, ajoutez l'implémentation de la méthode `update_order` dans `log430-labo5-payment/src/controllers/payment_controller.py` :
+
+```python
+def update_order(order_id, is_paid):
+    """ Update order """
+    response_from_store_manager = requests.put(
+        'http://api-gateway:8080/store-manager-api/orders',
+        json={
+            'order_id': order_id,
+            'is_paid': is_paid,
+        },
+        headers={'Content-Type': 'application/json'}
+    )
+
+    if response_from_store_manager.ok:
+        data = response_from_store_manager.json() 
+        logger.info(data)
+    else:
+        logger.error("Erreur:", response_from_store_manager.status_code, response_from_store_manager.text)
+```
 
 ### 2. Clonez le dépôt du labo 06
 Créez votre propre dépôt à partir du dépôt gabarit (template). Vous pouvez modifier la visibilité pour le rendre privé si vous voulez.
